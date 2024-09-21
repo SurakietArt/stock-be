@@ -1,15 +1,18 @@
+import pytest
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APIClient
 
 from stock.models.category_model import Category
 from stock.models.items_model import Items
 from stock.models.units_model import Units
 
 
-class ItemsTests(APITestCase):
-    def setUp(self):
-        self.category = Category.objects.create(name="Test Category")
+@pytest.mark.django_db
+class TestItemsAPI:
+    def setup_method(self):
+        self.client = APIClient()
         self.unit = Units.objects.create(name="Test Unit")
+        self.category = Category.objects.create(name="Test Category")
         self.item = Items.objects.create(
             name="Test Item",
             amount=10,
@@ -20,7 +23,7 @@ class ItemsTests(APITestCase):
         )
 
     def test_create_item(self):
-        url = "/api/v1/items"
+        url = "/api/v1/items"  # Adjust based on your URL structure
         data = {
             "name": "New Item",
             "amount": 5,
@@ -30,17 +33,17 @@ class ItemsTests(APITestCase):
             "category": self.category.id,
         }
         response = self.client.post(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(Items.objects.filter(name="New Item").exists())
+        assert response.status_code == status.HTTP_201_CREATED
+        assert Items.objects.filter(name="New Item").exists()
 
     def test_read_item(self):
-        url = f"/api/v1/items/{self.item.id}"
+        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
         response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["name"], "Test Item")
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data["name"] == "Test Item"
 
     def test_update_item(self):
-        url = f"/api/v1/items/{self.item.id}"
+        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
         data = {
             "name": "Updated Item",
             "amount": 20,
@@ -50,13 +53,13 @@ class ItemsTests(APITestCase):
             "category": self.category.id,
         }
         response = self.client.put(url, data, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert response.status_code == status.HTTP_200_OK
         self.item.refresh_from_db()
-        self.assertEqual(self.item.name, "Updated Item")
-        self.assertEqual(self.item.amount, 20)
+        assert self.item.name == "Updated Item"
+        assert self.item.amount == 20
 
     def test_delete_item(self):
-        url = f"/api/v1/items/{self.item.id}"
+        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
         response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Items.objects.filter(id=self.item.id).exists())
+        assert response.status_code == status.HTTP_204_NO_CONTENT
+        assert not Items.objects.filter(id=self.item.id).exists()
