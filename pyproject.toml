@@ -20,6 +20,7 @@ exclude = '''
   | .+\\asgi\.py$
   | .+\\urls\.py$
   | .+\\wsgi\.py$
+  | .+\\settings\.py$
 )
 '''
 

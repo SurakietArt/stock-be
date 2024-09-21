@@ -78,9 +78,7 @@ WSGI_APPLICATION = "stock_be.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db_url(
-        default="postgres://postgres:0291@localhost:5432/boat_routing_gbn"
-    ),
+    "default": env.db_url(default="postgres://postgres:postgres@localhost:5432/stock"),
 }
 
 
