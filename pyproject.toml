@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "stock-be"
+version = "0.1.0"
+description = ""
+authors = ["Surakiet Piyasakulkiet <90365388+SurakietArt@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "stock_be"}]
+
+[tool.isort]
+skip = ["env", "stock_be/settings.py"]
+line_length = 120
+extend_skip_glob = ["scripts/unoconv"]
+profile = "black"
+
+[tool.black]
+line-length = 88
+exclude = '''
+(
+    ^manage\.py$
+  | .+\\asgi\.py$
+  | .+\\urls\.py$
+  | .+\\wsgi\.py$
+)
+'''
+
+[tool.poetry.dependencies]
+python = "^3.11"
+djangorestframework = "^3.15.2"
+environ = "^1.0"
+django-environ = "^0.11.2"
+pre-commit = "^3.8.0"
+isort = "^5.13.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
