@@ -1,8 +1,8 @@
 from django.db import models
 
 from core.models.base_model import BaseModel
-from stock.models.category import Category
-from stock.models.units import Units
+from stock.models.category_model import Category
+from stock.models.units_model import Units
 
 
 class Items(BaseModel):
@@ -10,7 +10,9 @@ class Items(BaseModel):
     amount = models.IntegerField()
     price = models.FloatField()
     price_per_unit = models.FloatField()
-    unit = models.ForeignKey(Units, on_delete=models.SET_NULL, related_name="item_unit")
+    unit = models.ForeignKey(
+        Units, on_delete=models.SET_NULL, related_name="item_unit", null=True
+    )
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL, related_name="item_category"
+        Category, on_delete=models.SET_NULL, related_name="item_category", null=True
     )
