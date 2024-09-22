@@ -8,6 +8,8 @@ from stock.serializers.units_serializer import UnitsSerializer
 class ItemsSerializer(serializers.ModelSerializer):
     unit = UnitsSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
+    unit_id = serializers.IntegerField(write_only=True)
+    category_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Items

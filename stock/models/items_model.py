@@ -8,7 +8,6 @@ from stock.models.units_model import Units
 class Items(BaseModel):
     name = models.CharField(max_length=255)
     amount = models.IntegerField()
-    price = models.FloatField()
     price_per_unit = models.FloatField()
     unit = models.ForeignKey(
         Units, on_delete=models.SET_NULL, related_name="item_unit", null=True
