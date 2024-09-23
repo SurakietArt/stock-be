@@ -10,47 +10,44 @@ from stock.models.units_model import Units
 @pytest.mark.django_db
 class TestItemsAPI:
     def setup_method(self):
+        self.base_url = "/api/v1/stock/items"
         self.client = APIClient()
         self.unit = Units.objects.create(name="Test Unit")
         self.category = Category.objects.create(name="Test Category")
         self.item = Items.objects.create(
             name="Test Item",
             amount=10,
-            price=100.0,
             price_per_unit=10.0,
             unit=self.unit,
             category=self.category,
         )
 
     def test_create_item(self):
-        url = "/api/v1/items"  # Adjust based on your URL structure
         data = {
             "name": "New Item",
             "amount": 5,
-            "price": 50.0,
             "price_per_unit": 10.0,
-            "unit": self.unit.id,
-            "category": self.category.id,
+            "unit_id": self.unit.id,
+            "category_id": self.category.id,
         }
-        response = self.client.post(url, data, format="json")
+        response = self.client.post(self.base_url, data, format="json")
         assert response.status_code == status.HTTP_201_CREATED
         assert Items.objects.filter(name="New Item").exists()
 
     def test_read_item(self):
-        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
+        url = f"{self.base_url}/{self.item.id}"  # Adjust based on your URL structure
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert response.data["name"] == "Test Item"
 
     def test_update_item(self):
-        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
+        url = f"{self.base_url}/{self.item.id}"  # Adjust based on your URL structure
         data = {
             "name": "Updated Item",
             "amount": 20,
-            "price": 150.0,
             "price_per_unit": 7.5,
-            "unit": self.unit.id,
-            "category": self.category.id,
+            "unit_id": self.unit.id,
+            "category_id": self.category.id,
         }
         response = self.client.put(url, data, format="json")
         assert response.status_code == status.HTTP_200_OK
@@ -59,7 +56,7 @@ class TestItemsAPI:
         assert self.item.amount == 20
 
     def test_delete_item(self):
-        url = f"/api/v1/items/{self.item.id}"  # Adjust based on your URL structure
+        url = f"{self.base_url}/{self.item.id}"  # Adjust based on your URL structure
         response = self.client.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not Items.objects.filter(id=self.item.id).exists()

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # in-app
     "stock",
     "core",
+    "customer",
 ]
 
 MIDDLEWARE = [
