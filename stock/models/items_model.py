@@ -7,6 +7,7 @@ from stock.models.units_model import Units
 
 class Items(BaseModel):
     name = models.CharField(max_length=255)
+    sku = models.CharField(max_length=255, db_index=True, unique=True)
     amount = models.IntegerField()
     price_per_unit = models.FloatField()
     unit = models.ForeignKey(
