@@ -7,6 +7,7 @@ from stock.models.units_model import Units
 
 class Items(BaseModel):
     name = models.CharField(max_length=255)
+    barcode = models.CharField(max_length=255, db_index=True, unique=True)
     sku = models.CharField(max_length=255, db_index=True, unique=True)
     amount = models.IntegerField()
     price_per_unit = models.FloatField()
@@ -16,3 +17,6 @@ class Items(BaseModel):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name="item_category", null=True
     )
+
+    class Meta:
+        ordering = ['id']

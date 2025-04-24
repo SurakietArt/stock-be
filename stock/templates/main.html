@@ -1,0 +1,192 @@
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>รายการสินค้า</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+        .nav-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        form.search-form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            font-size: 16px;
+        }
+        button[type="submit"] {
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+        #loading {
+            display: none;
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+        }
+        .sort-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0;
+        }
+        .sort-arrow {
+            color: gray;
+            font-size: 0.8em;
+        }
+
+        .sort-arrow.active {
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".search-form");
+    const tableBody = document.querySelector("tbody");
+    const loading = document.getElementById("loading");
+    const sortBtn = document.getElementById("sort-amount");
+    const arrowUp = document.getElementById("arrow-up");
+    const arrowDown = document.getElementById("arrow-down");
+
+    let originalItems = [];
+    let currentItems = [];
+    let sortState = 'default'; // asc -> desc -> default
+
+    function fetchItems(query = "") {
+        loading.style.display = "block";
+
+        fetch(`/api/v1/stock/items?q=${encodeURIComponent(query)}`, {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+        })
+        .then(response => response.json())
+        .then(data => {
+            originalItems = [...data];
+            currentItems = [...data];
+            displayItems(currentItems);
+            resetSortState();
+            loading.style.display = "none";
+        })
+        .catch(() => {
+            tableBody.innerHTML = '<tr><td colspan="3">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+            loading.style.display = "none";
+        });
+    }
+
+    function displayItems(items) {
+        tableBody.innerHTML = "";
+        if (items.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="3">ไม่พบสินค้า</td></tr>';
+        } else {
+            items.forEach(item => {
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.amount}</td>
+                        <td>${item.sku}</td>
+                    </tr>
+                `;
+            });
+        }
+    }
+
+    function resetSortState() {
+        sortState = 'default';
+        arrowUp.classList.remove("active");
+        arrowDown.classList.remove("active");
+    }
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const query = form.querySelector("input[name='q']").value;
+        fetchItems(query);
+    });
+
+    sortBtn.addEventListener("click", function () {
+        if (sortState === 'default') {
+            // ASCENDING
+            currentItems.sort((a, b) => a.amount - b.amount);
+            sortState = 'asc';
+            arrowUp.classList.add("active");
+            arrowDown.classList.remove("active");
+        } else if (sortState === 'asc') {
+            // DESCENDING
+            currentItems.sort((a, b) => b.amount - a.amount);
+            sortState = 'desc';
+            arrowUp.classList.remove("active");
+            arrowDown.classList.add("active");
+        } else {
+            // DEFAULT
+            currentItems = [...originalItems];
+            sortState = 'default';
+            arrowUp.classList.remove("active");
+            arrowDown.classList.remove("active");
+        }
+
+        displayItems(currentItems);
+    });
+
+    fetchItems(); // โหลดเริ่มต้น
+    });
+
+    </script>
+</head>
+<body>
+    <h1>📦 รายการสินค้า</h1>
+
+    <a href="/items/scan" class="nav-btn">🔍 ไปยังหน้าสแกนบาร์โค้ด</a>
+
+    <form method="get" action="/items" class="search-form">
+        <input type="text" name="q" placeholder="ค้นหาสินค้า...">
+        <button type="submit">ค้นหา</button>
+        <div id="loading">🔄 กำลังโหลดข้อมูล...</div>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ชื่อสินค้า</th>
+                <th style="white-space: nowrap;">
+                    <span style="display: inline-flex; align-items: center;">
+                        จำนวน
+                        <button id="sort-amount" class="sort-btn" style="margin-left: 6px; padding: 0; border: none; background: none; cursor: pointer;">
+                            <span class="sort-arrow" id="arrow-up">▲</span>
+                            <span class="sort-arrow" id="arrow-down">▼</span>
+                        </button>
+                    </span>
+                </th>
+                <th>SKU</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.amount }}</td>
+                <td>{{ item.sku }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">ไม่พบสินค้า</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

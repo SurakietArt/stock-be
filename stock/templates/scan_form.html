@@ -1,0 +1,187 @@
+{% include 'navbar.html' %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบสแกนบาร์โค้ด</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 20px; box-sizing: border-box; }
+        h2 { text-align: center; font-size: 1.5em; margin-bottom: 20px; }
+        form { max-width: 480px; margin: auto; }
+        input, textarea, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 12px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .nav-btn {
+            display: inline-block;
+            background-color: #2196F3;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            margin: 0 auto 20px;
+            max-width: 480px;
+            display: block;
+        }
+        #notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: #fff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            display: none;
+            opacity: 0.95;
+            font-size: 1em;
+            z-index: 9999;
+            max-width: 90%;
+            text-align: center;
+        }
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .radio-option {
+            flex: 1;
+            text-align: center;
+        }
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+        .radio-option label {
+            display: block;
+            background-color: #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .radio-option input[type="radio"]:checked + label {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .radio-option input[type="radio"]:checked + label.issue {
+            background-color: #f44336;
+        }
+        label {
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const barcodeInput = document.getElementById("barcode");
+            const amountInput = document.getElementById("amount");
+            const noteInput = document.getElementById("note");
+            const form = document.querySelector("form");
+            const notification = document.getElementById("notification");
+            const actionInputs = document.getElementsByName("action");
+
+            function getSelectedAction() {
+                for (let input of actionInputs) {
+                    if (input.checked) return input.value;
+                }
+                return "receive";
+            }
+
+            function showNotification(message, isSuccess = true, isIssue = false) {
+                if (isIssue) {
+                    notification.style.backgroundColor = '#f44336';
+                } else {
+                    notification.style.backgroundColor = isSuccess ? '#4CAF50' : '#f44336';
+                }
+                notification.textContent = message;
+                notification.style.display = 'block';
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 3000);
+            }
+
+            function submitForm(action) {
+                const barcode = barcodeInput.value.trim();
+                const amount = amountInput.value.trim();
+                const note = noteInput.value.trim();
+
+                if (!barcode || !amount) return;
+
+                fetch("/api/v1/stock/items/scan-barcode", {
+                    method: "POST",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: new URLSearchParams({ barcode, amount, action, note })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    const message = data.message || "⛔ ไม่พบข้อความจากเซิร์ฟเวอร์";
+                    const isIssue = action === "issue" && message.includes("สำเร็จ");
+                    showNotification(message, message.includes("สำเร็จ"), isIssue);
+                    barcodeInput.value = "";
+                    noteInput.value = "";
+                    barcodeInput.focus();
+                })
+                .catch(() => {
+                    showNotification("เกิดข้อผิดพลาดในการส่งข้อมูล", false);
+                });
+            }
+
+            barcodeInput.addEventListener("keydown", function (e) {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    const selectedAction = getSelectedAction();
+                    submitForm(selectedAction);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>📦 ระบบจัดการสต็อก (Scan Barcode)</h2>
+
+    <a href="/items" class="nav-btn">← กลับไปหน้าหลัก</a>
+
+    <form method="post" action="/items/scan-action/">
+        {% csrf_token %}
+
+        <label for="barcode">📷 Barcode:</label>
+        <input type="text" id="barcode" name="barcode" placeholder="สแกนหรือกรอกรหัส Barcode" autofocus required>
+
+        <label for="amount">🔢 จำนวน:</label>
+        <input type="number" id="amount" name="amount" placeholder="ระบุจำนวน" min="1" required>
+
+        <label for="note">📝 หมายเหตุ (ถ้ามี):</label>
+        <textarea id="note" name="note" rows="2" placeholder="หมายเหตุเพิ่มเติม..."></textarea>
+
+        <div class="radio-group">
+            <div class="radio-option">
+                <input type="radio" id="receive" name="action" value="receive" checked>
+                <label for="receive">รับเข้า</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="issue" name="action" value="issue">
+                <label for="issue" class="issue">จ่ายออก</label>
+            </div>
+        </div>
+    </form>
+
+    <div id="notification"></div>
+
+    {% if message %}
+        <p style="text-align:center; font-weight:bold; color:green">{{ message }}</p>
+    {% endif %}
+</body>
+</html>

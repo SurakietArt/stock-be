@@ -23,6 +23,3 @@ class SaleOrderItem(BaseModel):
     price_per_unit = models.FloatField()
     unit = models.ForeignKey(Units, on_delete=models.DO_NOTHING)
     price_sum = models.FloatField()
-
-    class Meta:
-        unique_together = ("sale_order", "item")

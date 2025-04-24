@@ -17,12 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+
 api_urls = [
     path("stock/", include("stock.urls")),
     path("customers/", include("customer.urls")),
 ]
 
+template_urls = [
+    path("items/", include("stock.template_urls"))
+]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(api_urls)),
+    path("", include(template_urls))
 ]
