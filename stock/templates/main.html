@@ -72,7 +72,7 @@
     function fetchItems(query = "") {
         loading.style.display = "block";
 
-        fetch(`/api/v1/stock/items?q=${encodeURIComponent(query)}`, {
+        fetch(`/api/v1/stock/items?name=${encodeURIComponent(query)}`, {
             headers: { "X-Requested-With": "XMLHttpRequest" }
         })
         .then(response => response.json())
@@ -95,11 +95,25 @@
             tableBody.innerHTML = '<tr><td colspan="3">ไม่พบสินค้า</td></tr>';
         } else {
             items.forEach(item => {
+                 if (item.alert_threshold == null) {
+                     item.alert_threshold = 0
+                 }
                 tableBody.innerHTML += `
                     <tr>
                         <td>${item.name}</td>
                         <td>${item.amount}</td>
+                        <td>${item.alert_threshold}</td>
                         <td>${item.sku}</td>
+                        <td>
+                        <button type="button"
+                            onclick="openModal(
+                                ${item.id},
+                                '${item.name.replace(/'/g, "\\'")}',
+                                ${item.amount},
+                                '${item.sku.replace(/'/g, "\\'")}',
+                                ${item.alert_threshold !== null ? item.alert_threshold : 'null'}
+                            )">⚙ ตั้งค่า</button>
+                        </td>
                     </tr>
                 `;
             });
@@ -114,7 +128,7 @@
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-        const query = form.querySelector("input[name='q']").value;
+        const query = form.querySelector("input[name='name']").value;
         fetchItems(query);
     });
 
@@ -145,6 +159,36 @@
     fetchItems(); // โหลดเริ่มต้น
     });
 
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function openModal(id, name, amount, sku, alertThreshold) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modal-item-id').value = id;
+      document.getElementById('modal-name').value = name;
+      document.getElementById('modal-amount').value = amount;
+      document.getElementById('modal-sku').value = sku;
+      document.getElementById('modal-alert-threshold').value = alertThreshold || 0; // ถ้า null ให้เป็น 0
+
+      const form = document.getElementById('editForm');
+      form.action = `/api/v1/stock/items/${id}`;
+
+      modal.style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('modal');
+      const modalContent = modal.querySelector('div');
+
+      modal.addEventListener('click', function(event) {
+        if (!modalContent.contains(event.target)) {
+          closeModal();
+        }
+      });
+
+});
+
     </script>
 </head>
 <body>
@@ -153,7 +197,7 @@
     <a href="/items/scan" class="nav-btn">🔍 ไปยังหน้าสแกนบาร์โค้ด</a>
 
     <form method="get" action="/items" class="search-form">
-        <input type="text" name="q" placeholder="ค้นหาสินค้า...">
+        <input type="text" name="name" placeholder="ค้นหาสินค้า...">
         <button type="submit">ค้นหา</button>
         <div id="loading">🔄 กำลังโหลดข้อมูล...</div>
     </form>
@@ -171,7 +215,9 @@
                         </button>
                     </span>
                 </th>
+                <th>จำนวนแจ้งเตือน</th>
                 <th>SKU</th>
+                <th>ตั้งค่า</th>
             </tr>
         </thead>
         <tbody>
@@ -180,6 +226,17 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.amount }}</td>
                 <td>{{ item.sku }}</td>
+                <td>{{ item.alert_threshold }}</td>
+                <td>
+                  <button type="button"
+                    onclick="openModal(
+                        {{ item.id }},
+                        '{{ item.name|escapejs }}',
+                        {{ item.amount }},
+                        '{{ item.sku|escapejs }}',
+                        {{ item.alert_threshold|default_if_none:'null' }}
+                    )">⚙ ตั้งค่า</button>
+                </td>
             </tr>
             {% empty %}
             <tr>
@@ -188,5 +245,50 @@
             {% endfor %}
         </tbody>
     </table>
+<div id="modal" style="display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000;">
+  <div style="background: white; width: 400px; margin: 100px auto; padding: 24px; border-radius: 12px; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.3); font-family: sans-serif;">
+    <h3 id="modal-title" style="margin-bottom: 20px; font-size: 20px;">แก้ไขสินค้า</h3>
+
+    <form id="editForm" method="patch" action="/api/v1/stock/items/">
+      <input type="hidden" name="item_id" id="modal-item-id">
+
+      <div style="margin-bottom: 16px;">
+        <label for="modal-name" style="display: block; margin-bottom: 6px;">ชื่อสินค้า:</label>
+        <input type="text" name="name" id="modal-name" required
+               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label for="modal-amount" style="display: block; margin-bottom: 6px;">จำนวน:</label>
+        <input type="number" name="amount" id="modal-amount" required min="0"
+               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+      </div>
+
+      <div style="margin-bottom: 24px;">
+        <label for="modal-alert-threshold" style="display: block; margin-bottom: 6px;">จำนวนแจ้งเตือน:</label>
+        <input type="number" name="alert_threshold" id="modal-alert-threshold" min="0"
+               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <label for="modal-sku" style="display: block; margin-bottom: 6px;">SKU:</label>
+        <input type="text" name="sku" id="modal-sku" required
+               style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 18px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;">
+          💾 บันทึก
+        </button>
+        <button type="button" onclick="closeModal()"
+                style="background-color: #ff0000; color: #ffffff; padding: 10px 18px; border: none; border-radius: 6px; font-size: 14px; cursor: pointer;">
+          ❌ ปิด
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>

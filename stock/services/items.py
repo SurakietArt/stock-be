@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 
-from stock.dataclass.barcode_dataclass import BarcodeParam
+from stock.dataclass.barcode_dataclass import BarcodeParam, BarcodeResponse
 from stock.models.items_model import Items
 from stock.models.transaction import ItemTransaction
 
@@ -26,15 +26,20 @@ class ItemsServices:
 
             if item.amount < 0:
                 return Response(
-                    {"message": f"❌ จำนวนไม่ถูกต้อง (คงเหลือ {item_before})"},
+                    BarcodeResponse(message=f"❌ จำนวนไม่ถูกต้อง (คงเหลือ {item_before})",
+                                    current_amount=item.amount).to_data(),
                     status.HTTP_400_BAD_REQUEST)
             item.save()
 
             return Response(
-                {"message": f"✅ ดำเนินการ {'รับเข้า' if params.action == 'receive' else 'จ่ายออก'} สำเร็จ"},
+                BarcodeResponse(
+                    message=f"✅ ดำเนินการ {'รับเข้า' if params.action == 'receive' else 'จ่ายออก'} สำเร็จ",
+                    current_amount=item.amount).to_data(),
                 status.HTTP_200_OK)
 
         except Items.DoesNotExist:
             return Response(
-                {"message": "❌ ไม่พบสินค้าในระบบ"},
+                BarcodeResponse(
+                    message="❌ ไม่พบสินค้าในระบบ",
+                    current_amount=0).to_data(),
                 status.HTTP_404_NOT_FOUND)

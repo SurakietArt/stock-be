@@ -17,4 +17,17 @@ class BarcodeParam(AutoSerialize):
             barcode="1234",
             amount=1,
             action="receive"
-            )
+        )
+
+
+@dataclass
+class BarcodeResponse(AutoSerialize):
+    message: str
+    current_amount: int
+
+    @classmethod
+    def example(cls) -> BarcodeResponse:
+        return cls(
+            message="ดำเนินการรับเข้าสำเร็จ",
+            current_amount=1
+        )

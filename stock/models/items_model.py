@@ -17,6 +17,7 @@ class Items(BaseModel):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, related_name="item_category", null=True
     )
+    alert_threshold = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ['id']

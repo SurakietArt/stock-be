@@ -17,10 +17,13 @@ class ItemsViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     queryset = Items.objects.all()
 
     def list(self, request: Request):
-        query = request.GET.get('q')
+        query = request.GET.get('name')
         items = Items.objects.filter(name__icontains=query)
         serialized = ItemsSerializer(items, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
+
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
 
     @csrf_exempt
     @action(detail=False, methods=["post"], url_path="scan-barcode", url_name="scan-barcode")
