@@ -8,6 +8,7 @@
         color: white;
         font-size: 1.2em;
         flex-wrap: wrap;
+        gap: 10px;
     }
 
     .navbar h1 {
@@ -15,15 +16,10 @@
         font-size: 1.2em;
     }
 
-    .navbar .notif-btn {
-        background-color: white;
-        color: #2196F3;
-        padding: 8px 14px;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 0.9em;
-        margin-top: 10px;
+    .navbar .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     @media (min-width: 600px) {
@@ -31,13 +27,28 @@
             flex-wrap: nowrap;
         }
 
-        .navbar .notif-btn {
-            margin-top: 0;
+        .navbar .actions {
+            flex-direction: row;
         }
+    }
+
+    .navbar .notif-btn,
+    .navbar .line-login-btn {
+        background-color: white;
+        color: #2196F3;
+        padding: 8px 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.9em;
+        text-align: center;
     }
 </style>
 
 <div class="navbar">
     <h1>📦 ระบบจัดการสต็อก</h1>
-    <a href="#" class="notif-btn">🔔 แจ้งเตือนของใกล้หมด</a>
+    <div class="actions">
+        <a href="#" class="notif-btn">🔔 แจ้งเตือนของใกล้หมด</a>
+        <a href="/api/v1/line/login" class="line-login-btn">💚 Login with LINE</a>
+    </div>
 </div>

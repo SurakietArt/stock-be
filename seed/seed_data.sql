@@ -1,5 +1,5 @@
 -- system user
-INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES ('password', NOW(), false, 'system', 'system', 'system', 'email@email.com', false, true, NOW()) ON CONFLICT DO NOTHING;
+INSERT INTO core_users (name, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES ('system_name' ,'password', NOW(), false, 'system', 'system', 'system', 'email@email.com', false, true, NOW()) ON CONFLICT DO NOTHING;
 
 -- stock_category
 INSERT INTO stock_category (deleted, deleted_by_cascade, created_date, name, created_by_id, updated_by_id) VALUES (null, false, NOW(), 'น้ำพริก', 1, 1) ON CONFLICT DO NOTHING;

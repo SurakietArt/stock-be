@@ -21,6 +21,7 @@ from django.urls import include, path
 api_urls = [
     path("stock/", include("stock.urls")),
     path("customers/", include("customer.urls")),
+    path("line/", include("line.urls")),
 ]
 
 template_urls = [

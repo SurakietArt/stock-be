@@ -13,19 +13,29 @@ import os
 from pathlib import Path
 
 import environ
-from corsheaders.defaults import default_headers
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env = environ.FileAwareEnv()
-env.read_env(BASE_DIR / ".env")
-
-
+ENV = environ.Env(
+    SECRET_KEY=(str, "django-insecure"),
+    DATABASE_PORT=(int, 5432),
+    DATABASE_HOSTNAME=(str, "localhost"),
+    DATABASE_NAME=(str, "stock"),
+    DATABASE_USERNAME=(str, "postgres"),
+    DATABASE_PASSWORD=(str, "postgres"),
+    LINE_LOGIN_URL=(str, "LINE_LOGIN_URL"),
+    LINE_GET_TOKEN_URL=(str, "LINE_GET_TOKEN_URL"),
+    LINE_LOGIN_REDIRECT_URI=(str, "LINE_LOGIN_REDIRECT_URI"),
+    LINE_LOGIN_CHANNEL_SECRET=(str, "LINE_LOGIN_CHANNEL_SECRET"),
+    LINE_LOGIN_CLIENT_ID=(str, "LINE_LOGIN_CLIENT_ID"),
+    FRONTEND_REDIRECT_URL=(str, "FRONTEND_REDIRECT_URL")
+)
+ENV.read_env(env_file='./.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY", "SECRET_KEY")
+SECRET_KEY = ENV("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,9 +54,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     # in-app
-    "stock",
     "core",
+    "stock",
     "customer",
+    "line"
 ]
 
 MIDDLEWARE = [
@@ -91,10 +102,22 @@ WSGI_APPLICATION = "stock_be.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    "default": env.db_url(default="postgres://postgres:postgres@localhost:5432/stock"),
-}
+if os.environ.get("DATABASE_URL") is not None:
+    DATABASES = {
+        # variable name default to DATABASE_URL
+        "default": ENV.db_url(),
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": ENV("DATABASE_NAME"),
+            "USER": ENV("DATABASE_USERNAME"),
+            "PASSWORD": ENV("DATABASE_PASSWORD"),
+            "HOST": ENV("DATABASE_HOSTNAME"),
+            "PORT": ENV("DATABASE_PORT"),
+        }
+    }
 
 
 # Password validation
@@ -139,6 +162,14 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "token",
-]
+
+AUTH_USER_MODEL = "core.Users"
+SESSION_COOKIE_SECURE = True
+
+# Line
+LINE_LOGIN_URL = ENV("LINE_LOGIN_URL")
+LINE_GET_TOKEN = ENV("LINE_GET_TOKEN_URL")
+LINE_LOGIN_REDIRECT_URI = ENV("LINE_LOGIN_REDIRECT_URI")
+LINE_LOGIN_CHANNEL_SECRET = ENV("LINE_LOGIN_CHANNEL_SECRET")
+LINE_LOGIN_CLIENT_ID = ENV("LINE_LOGIN_CLIENT_ID")
+FRONTEND_REDIRECT_URL = ENV("FRONTEND_REDIRECT_URL")

@@ -1,7 +1,9 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from core.models.base_model import BaseModel
+class Users(AbstractUser):
+    line_user_id = models.CharField(max_length=100, blank=True, null=True, unique=True)
+    name = models.CharField(max_length=255, blank=True)
 
-
-class Users(BaseModel):
-    name = models.CharField(max_length=255)
+    def __str__(self):
+        return self.username
