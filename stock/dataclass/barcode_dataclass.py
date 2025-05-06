@@ -22,12 +22,14 @@ class BarcodeParam(AutoSerialize):
 
 @dataclass
 class BarcodeResponse(AutoSerialize):
+    name: str
     message: str
     current_amount: int
 
     @classmethod
     def example(cls) -> BarcodeResponse:
         return cls(
+            name="น้ำพริกมันกุ้ง",
             message="ดำเนินการรับเข้าสำเร็จ",
             current_amount=1
         )

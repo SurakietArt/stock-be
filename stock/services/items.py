@@ -33,6 +33,7 @@ class ItemsServices:
 
             return Response(
                 BarcodeResponse(
+                    name=item.name,
                     message=f"✅ ดำเนินการ {'รับเข้า' if params.action == 'receive' else 'จ่ายออก'} สำเร็จ",
                     current_amount=item.amount).to_data(),
                 status.HTTP_200_OK)
@@ -40,6 +41,7 @@ class ItemsServices:
         except Items.DoesNotExist:
             return Response(
                 BarcodeResponse(
+                    name="",
                     message="❌ ไม่พบสินค้าในระบบ",
                     current_amount=0).to_data(),
                 status.HTTP_404_NOT_FOUND)

@@ -130,8 +130,10 @@
                     const message = data.message || "⛔ ไม่พบข้อความจากเซิร์ฟเวอร์";
                     const isIssue = action === "issue" && message.includes("สำเร็จ");
                     showNotification(message, message.includes("สำเร็จ"), isIssue);
+                    document.getElementById("latest-stock-name").textContent = `สินค้า: ${data.name ?? '-'}`;
                     document.getElementById("latest-stock").textContent = `จำนวนคงเหลือ: ${data.current_amount ?? '-'}`;
                     barcodeInput.value = "";
+                    amountInput.value = "1";
                     noteInput.value = "";
                     barcodeInput.focus();
                 })
@@ -153,13 +155,13 @@
     <a href="/items" class="nav-btn">← กลับไปหน้าหลัก</a>
 
     <form method="post" action="/items/scan-action/">
-
+        <p id="latest-stock-name" style="font-weight: bold; color: #555; margin-bottom: 10px;">สินค้า: -</p>
+        <p id="latest-stock" style="font-weight: bold; color: #555; margin-bottom: 10px;">จำนวนคงเหลือ: -</p>
         <label for="barcode">📷 Barcode:</label>
         <input type="text" id="barcode" name="barcode" placeholder="สแกนหรือกรอกรหัส Barcode" autofocus required>
-        <p id="latest-stock" style="font-weight: bold; color: #555; margin-bottom: 10px;">จำนวนคงเหลือ: -</p>
 
         <label for="amount">🔢 จำนวน:</label>
-        <input type="number" id="amount" name="amount" placeholder="ระบุจำนวน" min="1" required>
+        <input type="number" id="amount" name="amount" placeholder="ระบุจำนวน" min="1" value="1" required>
 
         <label for="note">📝 หมายเหตุ (ถ้ามี):</label>
         <textarea id="note" name="note" rows="2" placeholder="หมายเหตุเพิ่มเติม..."></textarea>
