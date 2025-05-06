@@ -5,8 +5,9 @@ from django.conf import settings
 from django.contrib.auth import login
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
-from rest_framework import status
-from rest_framework.decorators import action
+from rest_framework import status, viewsets
+from rest_framework.decorators import action, renderer_classes
+from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -48,3 +49,12 @@ class LineViewSet(GenericViewSet):
         })
 
         return redirect(f"{settings.FRONTEND_REDIRECT_URL}?{params}")
+
+
+@renderer_classes([TemplateHTMLRenderer])
+class LineTemplateViewSet(viewsets.GenericViewSet):
+
+    @action(detail=False, methods=["get"], url_path="callback", url_name="callback")
+    def line_call_back(self, request):
+        return Response(template_name="line_callback.html")
+

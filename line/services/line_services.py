@@ -1,9 +1,10 @@
 import requests
 from django.conf import settings
-from django.contrib.auth.models import User
 from rest_framework import status
 
 from core.exception.line_exception import LineServiceUnavailable
+from core.models import Users
+from core.util.password_generator import generate_password
 
 
 class LineService:
@@ -26,7 +27,7 @@ class LineService:
         return access_token
 
     @classmethod
-    def get_user_from_access_token(cls, token: str) -> User:
+    def get_user_from_access_token(cls, token: str) -> Users:
         profile_res = requests.get("https://api.line.me/v2/profile", headers={
             "Authorization": f"Bearer {token}"
         })
@@ -39,11 +40,11 @@ class LineService:
             raise LineServiceUnavailable("No userId in profile")
 
         try:
-            user = User.objects.get(line_user_id=line_user_id)
-        except User.DoesNotExist:
-            user = User.objects.create_user(
+            user = Users.objects.get(line_user_id=line_user_id)
+        except Users.DoesNotExist:
+            user = Users.objects.create_user(
                 username=f"line_{line_user_id}",
-                password=User.objects.make_random_password(),
+                password=generate_password(12),
                 line_user_id=line_user_id,
                 first_name=display_name,
                 name=display_name,

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Login Success</title></head>
+<body>
+  <p>กำลังเข้าสู่ระบบ...</p>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const access = params.get("access");
+    const refresh = params.get("refresh");
+    const name = params.get("name");
+
+    if (access && refresh && name) {
+      localStorage.setItem("access_token", access);
+      localStorage.setItem("refresh_token", refresh);
+      localStorage.setItem("user_name", name);
+
+      window.location.href = "/items";
+    } else {
+      alert("Login failed.");
+    }
+  </script>
+</body>
+</html>

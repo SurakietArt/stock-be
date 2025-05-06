@@ -25,7 +25,9 @@ api_urls = [
 ]
 
 template_urls = [
-    path("items/", include("stock.template_urls"))
+    path("items/", include("stock.template_urls")),
+    path("line/", include("line.template_urls")),
+    path("", include("core.template_urls"))
 ]
 
 urlpatterns = [
