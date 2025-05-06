@@ -15,7 +15,7 @@ class LineService:
             "code": code,
             "redirect_uri": settings.LINE_LOGIN_REDIRECT_URI,
             "client_id": settings.LINE_LOGIN_CLIENT_ID,
-            "client_secret": settings.LINE_CHANNEL_SECRET,
+            "client_secret": settings.LINE_LOGIN_CHANNEL_SECRET,
         }, headers={"Content-Type": "application/x-www-form-urlencoded"})
         res_data = res.json()
         if res.status_code != status.HTTP_200_OK:
