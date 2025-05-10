@@ -1,4 +1,6 @@
 {% include 'navbar.html' %}
+{% load static %}
+<script src="{% static 'core/js/request.js' %}"></script>
 
 <!DOCTYPE html>
 <html lang="th">
@@ -113,7 +115,7 @@
   <div style="background: white; width: 400px; margin: 100px auto; padding: 24px; border-radius: 12px; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.3); font-family: sans-serif;">
     <h3 id="modal-title" style="margin-bottom: 20px; font-size: 20px;">แก้ไขสินค้า</h3>
 
-    <form id="editForm" method="patch" action="/api/v1/stock/items/">
+    <form id="editForm">
       <input type="hidden" name="item_id" id="modal-item-id">
 
       <div style="margin-bottom: 16px;">
@@ -155,155 +157,143 @@
 
 </body>
 </html>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const form = document.querySelector(".search-form");
-        const tableBody = document.querySelector("tbody");
-        const loading = document.getElementById("loading");
-        const sortBtn = document.getElementById("sort-amount");
-        const arrowUp = document.getElementById("arrow-up");
-        const arrowDown = document.getElementById("arrow-down");
-        const modal = document.getElementById("modal");
-        const modalContent = modal.querySelector("div");
-        const editForm = document.getElementById("editForm");
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".search-form");
+    const tableBody = document.querySelector("tbody");
+    const loading = document.getElementById("loading");
+    const sortBtn = document.getElementById("sort-amount");
+    const arrowUp = document.getElementById("arrow-up");
+    const arrowDown = document.getElementById("arrow-down");
+    const modal = document.getElementById("modal");
+    const modalContent = modal.querySelector("div");
+    const editForm = document.getElementById("editForm");
 
-        let originalItems = [];
-        let currentItems = [];
-        let sortState = 'default';
+    let originalItems = [];
+    let currentItems = [];
+    let sortState = 'default';
 
-        function fetchItems(query = "") {
-            loading.style.display = "block";
-            fetch(`/api/v1/stock/items?name=${encodeURIComponent(query)}`, {
-                headers: { "X-Requested-With": "XMLHttpRequest" }
-            })
-            .then(response => response.json())
-            .then(data => {
-                originalItems = [...data];
-                currentItems = [...data];
-                displayItems(currentItems);
-                resetSortState();
-                loading.style.display = "none";
-            })
-            .catch(() => {
-                tableBody.innerHTML = '<tr><td colspan="5">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
-                loading.style.display = "none";
-            });
-        }
+    async function fetchItems(query = "") {
+      loading.style.display = "block";
 
-        function displayItems(items) {
-            tableBody.innerHTML = "";
-            if (items.length === 0) {
-                tableBody.innerHTML = '<tr><td colspan="5">ไม่พบสินค้า</td></tr>';
-            } else {
-                items.forEach(item => {
-                    if (item.alert_threshold == null) item.alert_threshold = 0;
-                    tableBody.innerHTML += `
-                        <tr>
-                            <td>${item.name}</td>
-                            <td>${item.amount}</td>
-                            <td>${item.alert_threshold}</td>
-                            <td>${item.sku}</td>
-                            <td>
-                                <button type="button" onclick="openModal(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.amount}, '${item.sku.replace(/'/g, "\\'")}', ${item.alert_threshold})">⚙ ตั้งค่า</button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-        }
+      try {
+        const data = await apiRequestWithRefresh(`/api/v1/stock/items?name=${encodeURIComponent(query)}`, "GET");
+        originalItems = [...data];
+        currentItems = [...data];
+        displayItems(currentItems);
+        resetSortState();
+      } catch (err) {
+        tableBody.innerHTML = '<tr><td colspan="5">เกิดข้อผิดพลาดในการโหลดข้อมูล</td></tr>';
+        console.error("โหลดข้อมูลล้มเหลว:", err.message);
+      } finally {
+        loading.style.display = "none";
+      }
+    }
 
-        function resetSortState() {
-            sortState = 'default';
-            arrowUp.classList.remove("active");
-            arrowDown.classList.remove("active");
-        }
 
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const query = form.querySelector("input[name='name']").value;
-            fetchItems(query);
+    function displayItems(items) {
+      tableBody.innerHTML = "";
+      if (items.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="5">ไม่พบสินค้า</td></tr>';
+      } else {
+        items.forEach(item => {
+          if (item.alert_threshold == null) item.alert_threshold = 0;
+          tableBody.innerHTML += `
+              <tr>
+                <td>${item.name}</td>
+                <td>${item.amount}</td>
+                <td>${item.alert_threshold}</td>
+                <td>${item.sku}</td>
+                <td>
+                  <button type="button" onclick="openModal(${item.id}, '${item.name.replace(/'/g, "\\'")}', ${item.amount}, '${item.sku.replace(/'/g, "\\'")}', ${item.alert_threshold})">⚙ ตั้งค่า</button>
+                </td>
+              </tr>
+          `;
         });
+      }
+    }
 
-        sortBtn.addEventListener("click", function () {
-            if (sortState === 'default') {
-                currentItems.sort((a, b) => a.amount - b.amount);
-                sortState = 'asc';
-                arrowUp.classList.add("active");
-                arrowDown.classList.remove("active");
-            } else if (sortState === 'asc') {
-                currentItems.sort((a, b) => b.amount - a.amount);
-                sortState = 'desc';
-                arrowUp.classList.remove("active");
-                arrowDown.classList.add("active");
-            } else {
-                currentItems = [...originalItems];
-                sortState = 'default';
-                arrowUp.classList.remove("active");
-                arrowDown.classList.remove("active");
-            }
-            displayItems(currentItems);
-        });
+    function resetSortState() {
+      sortState = 'default';
+      arrowUp.classList.remove("active");
+      arrowDown.classList.remove("active");
+    }
 
-        fetchItems();
-
-        window.openModal = function (id, name, amount, sku, alertThreshold) {
-            document.getElementById("modal-item-id").value = id;
-            document.getElementById("modal-name").value = name;
-            document.getElementById("modal-amount").value = amount;
-            document.getElementById("modal-sku").value = sku;
-            document.getElementById("modal-alert-threshold").value = alertThreshold || 0;
-
-            editForm.action = `/api/v1/stock/items/${id}/`;
-            modal.style.display = 'block';
-        };
-
-        window.closeModal = function () {
-            modal.style.display = 'none';
-        };
-
-        modal.addEventListener("click", function (event) {
-            if (!modalContent.contains(event.target)) {
-                closeModal();
-            }
-        });
-
-        editForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            const itemIdInput = document.getElementById("modal-item-id");
-            if (!itemIdInput) return;
-
-            const formData = {
-                name: document.getElementById("modal-name").value,
-                amount: document.getElementById("modal-amount").value,
-                alert_threshold: document.getElementById("modal-alert-threshold").value,
-                sku: document.getElementById("modal-sku").value
-            };
-            fetch(`/api/v1/stock/items/${itemIdInput.value}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data && data.id) {
-                    showNotification(`✅ บันทึกข้อมูลสำเร็จ ${data.name}`);
-                    closeModal();
-                    fetchItems();
-                } else {
-                    showNotification(`❌ เกิดข้อผิดพลาด: ${JSON.stringify(data)}`, false);
-                }
-            })
-            .catch(err => {
-                showNotification("❌ ไม่สามารถเชื่อมต่อ API ได้", false);
-                console.error(err);
-            });
-        });
-
-        window.showNotification = function (message, success = true) {
-            alert(message);
-        }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const query = form.querySelector("input[name='name']").value;
+      fetchItems(query);
     });
+
+    sortBtn.addEventListener("click", function () {
+      if (sortState === 'default') {
+        currentItems.sort((a, b) => a.amount - b.amount);
+        sortState = 'asc';
+        arrowUp.classList.add("active");
+        arrowDown.classList.remove("active");
+      } else if (sortState === 'asc') {
+        currentItems.sort((a, b) => b.amount - a.amount);
+        sortState = 'desc';
+        arrowUp.classList.remove("active");
+        arrowDown.classList.add("active");
+      } else {
+        currentItems = [...originalItems];
+        sortState = 'default';
+        arrowUp.classList.remove("active");
+        arrowDown.classList.remove("active");
+      }
+      displayItems(currentItems);
+    });
+
+    fetchItems();
+
+    window.openModal = function (id, name, amount, sku, alertThreshold) {
+      document.getElementById("modal-item-id").value = id;
+      document.getElementById("modal-name").value = name;
+      document.getElementById("modal-amount").value = amount;
+      document.getElementById("modal-sku").value = sku;
+      document.getElementById("modal-alert-threshold").value = alertThreshold || 0;
+
+      modal.style.display = 'block';
+    };
+
+
+    window.closeModal = function () {
+      modal.style.display = 'none';
+    };
+
+    modal.addEventListener("click", function (event) {
+      if (!modalContent.contains(event.target)) {
+        closeModal();
+      }
+    });
+
+    editForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const itemId = document.getElementById("modal-item-id").value;
+
+      const formData = {
+        name: document.getElementById("modal-name").value,
+        amount: parseInt(document.getElementById("modal-amount").value),
+        alert_threshold: parseInt(document.getElementById("modal-alert-threshold").value),
+        sku: document.getElementById("modal-sku").value
+      };
+
+      try {
+        const data = await apiRequestWithRefresh(`/api/v1/stock/items/${itemId}`, 'PATCH', formData);
+        showNotification(`✅ บันทึกข้อมูลสำเร็จ ${data.name}`);
+        closeModal();
+        fetchItems();
+      } catch (err) {
+        showNotification(`❌ ${err.message}`, false);
+        console.error(err);
+      }
+    });
+
+    // ✅ แจ้งเตือนแบบเบื้องต้น
+    window.showNotification = function (message, success = true) {
+      alert(message);
+    };
+  });
 </script>

@@ -16,6 +16,8 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+environ.Env.read_env(BASE_DIR / '.env')
 ENV = environ.Env(
     SECRET_KEY=(str, "django-insecure"),
     DATABASE_PORT=(int, 5432),
@@ -23,6 +25,8 @@ ENV = environ.Env(
     DATABASE_NAME=(str, "stock"),
     DATABASE_USERNAME=(str, "postgres"),
     DATABASE_PASSWORD=(str, "postgres"),
+    TOKEN_LIFE_TIME=(int, 1),  # hrs
+    REFRESH_TOKEN_LIFE_TIME=(int, 360),  # sec
     LINE_LOGIN_URL=(str, "LINE_LOGIN_URL"),
     LINE_GET_TOKEN_URL=(str, "LINE_GET_TOKEN_URL"),
     LINE_LOGIN_REDIRECT_URI=(str, "LINE_LOGIN_REDIRECT_URI"),
@@ -30,7 +34,6 @@ ENV = environ.Env(
     LINE_LOGIN_CLIENT_ID=(str, "LINE_LOGIN_CLIENT_ID"),
     FRONTEND_REDIRECT_URL=(str, "FRONTEND_REDIRECT_URL")
 )
-ENV.read_env(env_file='./.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -41,7 +44,6 @@ SECRET_KEY = ENV("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -63,16 +65,16 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 
 REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ("core.middleware.auth_middleware.JWTAuthenticationMiddleware",),
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.TemplateHTMLRenderer',
@@ -99,7 +101,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "stock_be.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 if os.environ.get("DATABASE_URL") is not None:
@@ -119,7 +120,6 @@ else:
         }
     }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -138,7 +138,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -149,7 +148,6 @@ TIME_ZONE = "Asia/Bangkok"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -165,6 +163,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 AUTH_USER_MODEL = "core.Users"
 SESSION_COOKIE_SECURE = True
+
+TOKEN_LIFE_TIME = ENV("TOKEN_LIFE_TIME")
+REFRESH_TOKEN_LIFE_TIME = ENV("REFRESH_TOKEN_LIFE_TIME")
+
 
 # Line
 LINE_LOGIN_URL = ENV("LINE_LOGIN_URL")

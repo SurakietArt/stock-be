@@ -13,12 +13,14 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from core.util.token_generator import generate_app_token
 from line.services.line_services import LineService
 
 User = get_user_model()
 
 
 class LineViewSet(GenericViewSet):
+    authentication_classes = []
 
     @action(detail=False, methods=["get"], url_path="login", url_name="login")
     def line_login(self, request: Request) -> Response:
@@ -42,13 +44,23 @@ class LineViewSet(GenericViewSet):
         user = LineService.get_user_from_access_token(line_access_token)
         login(request, user)
         refresh = RefreshToken.for_user(user)
+        token = generate_app_token(user)
         params = urlencode({
-            "access": str(refresh.access_token),
-            "refresh": str(refresh),
+            "access": token,
             "name": user.first_name,
         })
+        response = redirect(f"{settings.FRONTEND_REDIRECT_URL}?{params}")
 
-        return redirect(f"{settings.FRONTEND_REDIRECT_URL}?{params}")
+        response.set_cookie(
+            key="refresh_token",
+            value=str(refresh),
+            httponly=True,
+            secure=True,
+            samesite="Strict",
+            max_age=settings.REFRESH_TOKEN_LIFE_TIME
+        )
+
+        return response
 
 
 @renderer_classes([TemplateHTMLRenderer])
