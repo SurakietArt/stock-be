@@ -22,6 +22,7 @@ api_urls = [
     path("stock/", include("stock.urls")),
     path("customers/", include("customer.urls")),
     path("line/", include("line.urls")),
+    path("", include("core.urls")),
 ]
 
 template_urls = [

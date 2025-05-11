@@ -48,8 +48,7 @@ window.apiRequestWithRefresh = async function (url, method = 'GET', body = null)
   try {
     return await window.apiRequest(url, method, body);
   } catch (err) {
-    if (err.message === 'Unauthorized' || err.message === 'Token is invalid') {
-      console.log('🔄 Access token expired. Trying refresh...');
+    if (err.message === 'Token Expire') {
       const refreshRes = await fetch('/api/v1/token/refresh/', {
         method: 'POST',
         credentials: 'include'
@@ -63,7 +62,7 @@ window.apiRequestWithRefresh = async function (url, method = 'GET', body = null)
         throw new Error('Refresh token failed');
       }
     }
-
-    throw err;
+    console.warn('🔐 Token invalid or unknown error:', err.message);
+    window.location.href = '/api/v1/line/login';
   }
 };
