@@ -290,3 +290,6 @@ pyrightconfig.json
 google_cred
 
 .idea
+.idea/*
+.idea/dataSources.xml
+.DS_store

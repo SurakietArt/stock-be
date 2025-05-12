@@ -1,67 +1,170 @@
-<style>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>MUMMOM Stock</title>
+  <link rel="icon" href="{% static 'stock/icon/favicon.ico' %}" type="image/x-icon">
+  <style>
     .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 20px;
-        background-color: #2196F3;
-        color: white;
-        font-size: 1.2em;
-        flex-wrap: wrap;
-        gap: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: #E25822;
+      color: white;
+      font-size: 1.2em;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .navbar h1 {
-        margin: 0;
-        font-size: 1.2em;
+      margin: 0;
+      font-size: 1.4em;
+      font-weight: bold;
+      color: white;
     }
 
     .navbar .actions {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     @media (min-width: 600px) {
-        .navbar {
-            flex-wrap: nowrap;
-        }
-
-        .navbar .actions {
-            flex-direction: row;
-        }
+      .navbar {
+        flex-wrap: nowrap;
+      }
+      .navbar .actions {
+        flex-direction: row;
+      }
     }
 
-    .navbar .notif-btn,
-    .navbar .line-login-btn {
-        background-color: white;
-        color: #2196F3;
-        padding: 8px 14px;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        font-size: 0.9em;
-        text-align: center;
+    .notif-btn,
+    .user-box {
+      background-color: white;
+      color: #E25822;
+      padding: 8px 14px;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
     }
-</style>
 
-<div class="navbar">
-    <h1>📦 ระบบจัดการสต็อก</h1>
+    .user-wrapper {
+      position: relative;
+    }
+
+    .user-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .user-box img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #E25822;
+      background-color: white;
+    }
+
+    .user-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      min-width: 160px;
+      z-index: 1000;
+      white-space: nowrap;
+
+    }
+
+    .user-dropdown button {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 10px 14px;
+      cursor: pointer;
+      color: #333;
+      font-weight: 500;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .user-dropdown button:last-child {
+      border-bottom: none;
+    }
+
+    .user-dropdown button:hover {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>🦀 MUMMOM Stock</h1>
     <div class="actions">
-        <a href="#" class="notif-btn">🔔 แจ้งเตือนของใกล้หมด</a>
-        <a id="user-display" href="/api/v1/line/login" class="line-login-btn">💚 Login with LINE</a>
+      <a href="#" class="notif-btn">🔔 แจ้งเตือนของใกล้หมด</a>
+      <div class="user-wrapper">
+        <div id="user-display" class="user-box line-login-btn">
+          💚 Login with LINE
+        </div>
+        <div id="user-dropdown" class="user-dropdown">
+          <button id="logout-btn">🚪 ออกจากระบบ</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const userName = localStorage.getItem("user_name");
-    const userDisplay = document.getElementById("user-display");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const userName = localStorage.getItem("user_name");
+      const userPicture = localStorage.getItem("user_image_url");
+      const userDisplay = document.getElementById("user-display");
+      const userDropdown = document.getElementById("user-dropdown");
+      const logoutBtn = document.getElementById("logout-btn");
 
-    if (userName) {
-      userDisplay.textContent = `👤 ${userName}`;
-      userDisplay.href = "#";
-      userDisplay.classList.remove("line-login-btn");
-    }
-  });
-</script>
+      if (userName && userPicture) {
+        userDisplay.innerHTML = `
+          <img src="${userPicture}" alt="${userName}">
+          <span>${userName}</span>
+        `;
+        userDisplay.classList.remove("line-login-btn");
+        userDisplay.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          userDropdown.style.display = userDropdown.style.display === "block" ? "none" : "block";
+        });
+        document.addEventListener("click", function (e) {
+          if (!document.querySelector(".user-wrapper").contains(e.target)) {
+            userDropdown.style.display = "none";
+          }
+        });
+        logoutBtn.addEventListener("click", function () {
+          fetch("/api/v1/logout", {
+            method: "POST",
+            credentials: "include"
+          }).then(res => res.json()).then(() => {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("user_name");
+            localStorage.removeItem("user_image_url");
+            location.href = "/items/scan";
+          });
+        });
+      } else {
+        userDisplay.innerHTML = `<a href="/api/v1/line/login" class="user-box line-login-btn">💚 Login with LINE</a>`;
+        userDropdown.style.display = "none";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -35,9 +35,11 @@ class LineService:
 
         line_user_id = profile.get("userId")
         display_name = profile.get("displayName", "DISPLAY_NAME_NOT_FOUND")
+        profile_img_url = profile.get("pictureUrl", "PROFILE_IMG_URL_NOT_FOUND")
+        profile_img_url = f"{profile_img_url}/small"
 
         if not line_user_id:
-            raise LineServiceUnavailable("No userId in profile")
+            raise LineServiceUnavailable("No userId in line token")
 
         try:
             user = Users.objects.get(line_user_id=line_user_id)
@@ -48,5 +50,6 @@ class LineService:
                 line_user_id=line_user_id,
                 first_name=display_name,
                 name=display_name,
+                profile_img_url=profile_img_url
             )
         return user

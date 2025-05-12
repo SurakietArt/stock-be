@@ -7,12 +7,14 @@
     const params = new URLSearchParams(window.location.search);
     const access = params.get("access");
     const name = params.get("name");
+    const userImage = params.get("user_image_url")
 
     if (access && name) {
       localStorage.setItem("access_token", access);
       localStorage.setItem("user_name", name);
+      localStorage.setItem("user_image_url", userImage);
 
-      window.location.href = "/items";
+      window.location.href = "/items/scan";
     } else {
       alert("Login failed.");
     }

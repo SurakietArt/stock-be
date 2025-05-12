@@ -48,6 +48,7 @@ class LineViewSet(GenericViewSet):
         params = urlencode({
             "access": token,
             "name": user.first_name,
+            "user_image_url": user.profile_img_url
         })
         response = redirect(f"{settings.FRONTEND_REDIRECT_URL}?{params}")
 
