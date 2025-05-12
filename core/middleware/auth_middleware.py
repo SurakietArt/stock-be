@@ -13,6 +13,7 @@ from core.models import Users
 class JWTAuthenticationMiddleware(BaseAuthentication):
 
     def authenticate(self, request: Request) -> Optional[Tuple[Users, str]]:
+        # to avoid template path
         if not request.path.startswith("/api/"):
             return None
         auth_header = request.headers.get("Authorization")

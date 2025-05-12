@@ -5,6 +5,7 @@ from core.models.base_model import BaseModel
 TRANSACTION_TYPES = (
     ('receive', 'รับเข้า'),
     ('issue', 'จ่ายออก'),
+    ('update', 'อัปเดต'),
 )
 
 

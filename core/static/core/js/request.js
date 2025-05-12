@@ -49,7 +49,7 @@ window.apiRequestWithRefresh = async function (url, method = 'GET', body = null)
     return await window.apiRequest(url, method, body);
   } catch (err) {
     if (err.message === 'Token Expire') {
-      const refreshRes = await fetch('/api/v1/token/refresh/', {
+      const refreshRes = await fetch('/api/v1/refresh', {
         method: 'POST',
         credentials: 'include'
       });

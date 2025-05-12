@@ -16,16 +16,21 @@ class ItemsViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     serializer_class = ItemsSerializer
     queryset = Items.objects.all()
 
-    def list(self, request: Request):
+    def list(self, request: Request, *args, **kwargs):
         name = request.GET.get('name')
         items = ItemsServices.get_items(name)
         serialized = ItemsSerializer(items, many=True)
         return Response(serialized.data, status=status.HTTP_200_OK)
 
-    def partial_update(self, request, *args, **kwargs):
+    def partial_update(self, request: Request, *args, **kwargs):
         amount = request.data["amount"]
-        ItemsServices.create_item_transaction(request.user, self.get_object(), TRANSACTION_TYPE_UPDATE, amount)
-        return super().partial_update(request, *args, **kwargs)
+        alert_threshold = request.data["alert_threshold"]
+        return ItemsServices.save_item_with_transaction(
+            request.user,
+            self.get_object(),
+            TRANSACTION_TYPE_UPDATE,
+            amount,
+            alert_threshold)
 
     @csrf_exempt
     @action(detail=False, methods=["post"], url_path="scan-barcode", url_name="scan-barcode")
@@ -39,7 +44,7 @@ class ItemTemplateViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = ItemsSerializer
     queryset = Items.objects.all()
 
-    def list(self, request: Request):
+    def list(self, request: Request, *args, **kwargs):
         return Response(template_name="main.html")
 
     @action(detail=False, methods=["get"], url_path="scan", url_name="scan")
