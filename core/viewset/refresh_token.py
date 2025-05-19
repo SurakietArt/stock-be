@@ -5,6 +5,8 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 from rest_framework.exceptions import AuthenticationFailed
 
+from line.viewset.line_viewset import LineViewSet
+
 
 class RefreshTokenViewSet(GenericViewSet):
     authentication_classes = []
@@ -15,7 +17,7 @@ class RefreshTokenViewSet(GenericViewSet):
         refresh_token = request.COOKIES.get('refresh_token')
 
         if not refresh_token:
-            raise AuthenticationFailed("Refresh token not found in cookie")
+            raise LineViewSet.line_login(request=request)
 
         try:
             refresh = RefreshToken(refresh_token)
