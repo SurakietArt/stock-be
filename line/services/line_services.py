@@ -5,19 +5,16 @@ from rest_framework import status
 from core.exception.line_exception import LineServiceUnavailable
 from core.models import Users
 from core.util.password_generator import generate_password
+from line.dataclass.line import LineAccess
 
 
 class LineService:
 
     @classmethod
     def get_access_from_code(cls, code: str) -> str:
-        res = requests.post(settings.LINE_GET_TOKEN, data={
-            "grant_type": "authorization_code",
-            "code": code,
-            "redirect_uri": settings.LINE_LOGIN_REDIRECT_URI,
-            "client_id": settings.LINE_LOGIN_CLIENT_ID,
-            "client_secret": settings.LINE_LOGIN_CHANNEL_SECRET,
-        }, headers={"Content-Type": "application/x-www-form-urlencoded"})
+        res = requests.post(settings.LINE_GET_TOKEN,
+                            data=LineAccess.get_data(code).to_data(),
+                            headers={"Content-Type": "application/x-www-form-urlencoded"})
         res_data = res.json()
         if res.status_code != status.HTTP_200_OK:
             raise LineServiceUnavailable(res_data)
