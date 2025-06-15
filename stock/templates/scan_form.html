@@ -1,4 +1,5 @@
 {% include 'navbar.html' %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="th">
@@ -112,6 +113,7 @@
         font-weight: bold;
     }
 </style>
+    <script src="{% static 'core/js/request.js' %}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const barcodeInput = document.getElementById("barcode");
@@ -141,24 +143,17 @@
                 }, 3000);
             }
 
-            function submitForm(action) {
-                const barcode = barcodeInput.value.trim();
-                const amount = amountInput.value.trim();
-                const note = noteInput.value.trim();
+           function submitForm(action) {
+            const barcode = barcodeInput.value.trim();
+            const amount = amountInput.value.trim();
+            const note = noteInput.value.trim();
 
-                if (!barcode || !amount) return;
+            if (!barcode || !amount) return;
 
-                fetch("/api/v1/stock/items/scan-barcode", {
-                    method: "POST",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: new URLSearchParams({ barcode, amount, action, note })
-                })
-                .then(res => res.json())
+            const formData = new URLSearchParams({ barcode, amount, action, note });
+
+            window.apiRequestWithRefresh("/api/v1/stock/items/scan-barcode", "POST", formData)
                 .then(data => {
-                    console.log(data.message);
                     const message = data.message || "⛔ ไม่พบข้อความจากเซิร์ฟเวอร์";
                     const isIssue = action === "issue" && message.includes("สำเร็จ");
                     showNotification(message, message.includes("สำเร็จ"), isIssue);
@@ -169,7 +164,11 @@
                     noteInput.value = "";
                     barcodeInput.focus();
                 })
-            }
+                .catch(err => {
+                    console.error("❌ API Error:", err);
+                    showNotification("⛔ เกิดข้อผิดพลาดระหว่างเชื่อมต่อเซิร์ฟเวอร์", false);
+                });
+        }
 
             barcodeInput.addEventListener("keydown", function (e) {
                 if (e.key === "Enter") {

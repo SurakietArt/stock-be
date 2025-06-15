@@ -1,3 +1,6 @@
+import uuid
+
+from django.conf import settings
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
@@ -17,7 +20,17 @@ class RefreshTokenViewSet(GenericViewSet):
         refresh_token = request.COOKIES.get('refresh_token')
 
         if not refresh_token:
-            raise LineViewSet.line_login(request=request)
+            state = str(uuid.uuid4())
+            request.session['line_login_state'] = state
+            login_url = settings.LINE_LOGIN_URL.format(
+                client_id=settings.LINE_LOGIN_CLIENT_ID,
+                redirect_uri=settings.LINE_LOGIN_REDIRECT_URI,
+                state=state
+            )
+            return Response({
+                "detail": "Missing refresh token",
+                "login_url": login_url
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
         try:
             refresh = RefreshToken(refresh_token)

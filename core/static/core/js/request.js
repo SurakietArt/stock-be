@@ -12,17 +12,23 @@ function getCSRFToken() {
 
 window.apiRequest = async function(url, method = 'GET', body = null) {
   const token = localStorage.getItem('access_token');
+
+  const isFormData = body instanceof URLSearchParams;
+
   const headers = {
-    'Content-Type': 'application/json',
     ...(token && { 'Authorization': `Bearer ${token}` }),
-    'X-CSRFToken': getCSRFToken()
+    'X-CSRFToken': getCSRFToken(),
+    ...(isFormData
+      ? { 'Content-Type': 'application/x-www-form-urlencoded' }
+      : { 'Content-Type': 'application/json' }
+    )
   };
 
   const options = {
     method: method.toUpperCase(),
     headers,
     credentials: 'include',
-    ...(body && { body: JSON.stringify(body) })
+    ...(body && { body: isFormData ? body.toString() : JSON.stringify(body) })
   };
 
   try {
@@ -54,15 +60,16 @@ window.apiRequestWithRefresh = async function (url, method = 'GET', body = null)
         credentials: 'include'
       });
 
+      const data = await refreshRes.json();
       if (refreshRes.ok) {
-        const data = await refreshRes.json();
         localStorage.setItem('access_token', data.access);
         return await window.apiRequest(url, method, body);
+      } else if (data.login_url) {
+        window.location.href = data.login_url;
       } else {
-        throw new Error('Refresh token failed');
+        throw new Error('Refresh token failed and no login URL provided');
       }
     }
-    console.warn('🔐 Token invalid or unknown error:', err.message);
-    window.location.href = '/api/v1/line/login';
+            throw err;
   }
 };
