@@ -25,12 +25,14 @@ class ItemsViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     def partial_update(self, request: Request, *args, **kwargs):
         amount = request.data["amount"]
         alert_threshold = request.data["alert_threshold"]
-        return ItemsServices.save_item_with_transaction(
+        item = ItemsServices.save_item_with_transaction(
             request.user,
             self.get_object(),
             TRANSACTION_TYPE_UPDATE,
             amount,
             alert_threshold)
+        serialized = ItemsSerializer(item)
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
     @csrf_exempt
     @action(detail=False, methods=["post"], url_path="scan-barcode", url_name="scan-barcode")

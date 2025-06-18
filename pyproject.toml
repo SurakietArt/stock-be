@@ -3,8 +3,6 @@ name = "stock-be"
 version = "0.1.0"
 description = ""
 authors = ["Surakiet Piyasakulkiet <90365388+SurakietArt@users.noreply.github.com>"]
-readme = "README.md"
-packages = [{include = "stock_be"}]
 
 [tool.isort]
 skip = ["env", "stock_be/settings.py"]
@@ -42,7 +40,11 @@ google-auth-httplib2 = "^0.2.0"
 google-auth-oauthlib = "^1.2.1"
 python-barcode = "^0.15.1"
 djangorestframework-simplejwt = "^5.5.0"
+gunicorn = "^22.0.0"
+whitenoise = "^6.9.0"
 
+[tool.poetry.group.deployment.dependencies]
+gunicorn = { extras = ["gthread"], version = "^22.0.0" }
 
 [build-system]
 requires = ["poetry-core"]

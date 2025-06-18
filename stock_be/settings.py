@@ -71,6 +71,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware"
 ]
 
 REST_FRAMEWORK = {
@@ -175,3 +176,6 @@ LINE_LOGIN_REDIRECT_URI = ENV("LINE_LOGIN_REDIRECT_URI")
 LINE_LOGIN_CHANNEL_SECRET = ENV("LINE_LOGIN_CHANNEL_SECRET")
 LINE_LOGIN_CLIENT_ID = ENV("LINE_LOGIN_CLIENT_ID")
 FRONTEND_REDIRECT_URL = ENV("FRONTEND_REDIRECT_URL")
+
+STATIC_URL = os.path.join(BASE_DIR, "staticfiles/")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")

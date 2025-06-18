@@ -293,3 +293,6 @@ google_cred
 .idea/*
 .idea/dataSources.xml
 .DS_store
+/staticfiles/
+/.idea
+.idea/sqldialects.xml

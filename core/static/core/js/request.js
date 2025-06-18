@@ -67,6 +67,7 @@ window.apiRequestWithRefresh = async function (url, method = 'GET', body = null)
       } else if (data.login_url) {
         window.location.href = data.login_url;
       } else {
+        console.log(data);
         throw new Error('Refresh token failed and no login URL provided');
       }
     }

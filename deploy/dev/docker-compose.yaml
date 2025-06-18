@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: "${DATABASE_NAME}"
+      POSTGRES_USER: "${DATABASE_USER}"
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+    healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  web:
+    restart: on-failure # will restart until it's success
+    build: .
+    env_file:
+      - .env
+    command: gunicorn stock_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+volumes:
+  db_data:

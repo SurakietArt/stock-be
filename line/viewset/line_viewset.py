@@ -24,14 +24,7 @@ class LineViewSet(GenericViewSet):
 
     @action(detail=False, methods=["get"], url_path="login", url_name="login")
     def line_login(self, request: Request) -> Response:
-        state = str(uuid.uuid4())
-        request.session['line_login_state'] = state
-        login_url = settings.LINE_LOGIN_URL.format(
-            client_id=settings.LINE_LOGIN_CLIENT_ID,
-            redirect_uri=settings.LINE_LOGIN_REDIRECT_URI,
-            state=state
-        )
-        return redirect(login_url)
+        return redirect(LineService.create_login_url(request))
 
     @action(detail=False, methods=["get"], url_path="callback", url_name="callback")
     def line_callback(self, request: Request) -> Response:

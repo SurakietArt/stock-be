@@ -1,6 +1,10 @@
+import uuid
+from urllib import request
+
 import requests
 from django.conf import settings
 from rest_framework import status
+from rest_framework.request import Request
 
 from core.exception.line_exception import LineServiceUnavailable
 from core.models import Users
@@ -50,3 +54,14 @@ class LineService:
                 profile_img_url=profile_img_url
             )
         return user
+
+    @classmethod
+    def create_login_url(cls, request: Request) -> str:
+        state = str(uuid.uuid4())
+        request.session['line_login_state'] = state
+        login_url = settings.LINE_LOGIN_URL.format(
+            client_id=settings.LINE_LOGIN_CLIENT_ID,
+            redirect_uri=settings.LINE_LOGIN_REDIRECT_URI,
+            state=state
+        )
+        return login_url
