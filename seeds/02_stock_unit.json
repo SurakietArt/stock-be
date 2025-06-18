@@ -1,0 +1,38 @@
+[
+  {
+    "model": "stock.Units",
+    "pk": 1,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "กระปุก",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  },
+  {
+    "model": "stock.Units",
+    "pk": 2,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "ชิ้น",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  },
+  {
+    "model": "stock.Units",
+    "pk": 3,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "กล่อง",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  }
+]

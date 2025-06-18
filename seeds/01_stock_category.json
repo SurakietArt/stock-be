@@ -1,0 +1,50 @@
+[
+  {
+    "model": "stock.Category",
+    "pk": 1,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "น้ำพริก",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  },
+  {
+    "model": "stock.Category",
+    "pk": 2,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "เจล",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  },
+  {
+    "model": "stock.Category",
+    "pk": 3,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "กล่องโฟม",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  },
+  {
+    "model": "stock.Category",
+    "pk": 4,
+    "fields": {
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_date": "2025-06-17T15:00:00Z",
+      "name": "ฟอยล์",
+      "created_by": 1,
+      "updated_by": 1
+    }
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "model": "core.Users",
+    "pk": 1,
+    "fields": {
+      "name": "system_name",
+      "password": "password",
+      "last_login": "2025-06-17T15:00:00Z",
+      "is_superuser": false,
+      "username": "system",
+      "first_name": "system",
+      "last_name": "system",
+      "email": "email@email.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2025-06-17T15:00:00Z"
+    }
+  }
+]

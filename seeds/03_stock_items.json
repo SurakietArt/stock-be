@@ -1,0 +1,1010 @@
+[
+  {
+    "model": "stock.Items",
+    "pk": 1,
+    "fields": {
+      "name": "มันกุ้ง",
+      "barcode": "FG-MG01",
+      "sku": "MMAPMK000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 2,
+    "fields": {
+      "name": "อ่องปูนา",
+      "barcode": "FG-APN02",
+      "sku": "MMAPAN000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 3,
+    "fields": {
+      "name": "มันปูเข้มข้น",
+      "barcode": "FG-MPK03",
+      "sku": "MMAPPK000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 4,
+    "fields": {
+      "name": "น้ำพริกมันปูม้า",
+      "barcode": "FG-NPPM04",
+      "sku": "MMAPPM000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 5,
+    "fields": {
+      "name": "กุ้งใหญ่",
+      "barcode": "FG-GY05",
+      "sku": "MMAPGB000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 6,
+    "fields": {
+      "name": "ปูใหญ่",
+      "barcode": "FG-PY06",
+      "sku": "MMAPPB000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 7,
+    "fields": {
+      "name": "เข้มใหญ่",
+      "barcode": "FG-KY07",
+      "sku": "MMAPKB000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 8,
+    "fields": {
+      "name": "น้ำพริกใหญ่",
+      "barcode": "FG-NPY08",
+      "sku": "MMAPNB000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 9,
+    "fields": {
+      "name": "ซีฟู้ด",
+      "barcode": "FG-SF09",
+      "sku": "MMAPSE000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 10,
+    "fields": {
+      "name": "สาหร่าย",
+      "barcode": "8857121554026",
+      "sku": "MMAPSL000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 11,
+    "fields": {
+      "name": "ปูพิเศษเล็ก",
+      "barcode": "FG-PP11",
+      "sku": "MMAPPP000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 12,
+    "fields": {
+      "name": "ปูพิเศษใหญ่",
+      "barcode": "FG-PPP12",
+      "sku": "MMAPPY000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 1,
+      "category_id": 1,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 13,
+    "fields": {
+      "name": "เจล 20g",
+      "barcode": "G-020",
+      "sku": "MMGN02000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 14,
+    "fields": {
+      "name": "เจล 50g",
+      "barcode": "G-050",
+      "sku": "MMGN05000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 15,
+    "fields": {
+      "name": "เจล 100g",
+      "barcode": "G-100",
+      "sku": "MMGN10000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 16,
+    "fields": {
+      "name": "เจล 200g",
+      "barcode": "G-200",
+      "sku": "MMGN20000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 17,
+    "fields": {
+      "name": "เจล 300g",
+      "barcode": "G-300",
+      "sku": "MMGN30000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 18,
+    "fields": {
+      "name": "เจล 400g",
+      "barcode": "G-400",
+      "sku": "MMGN40000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 19,
+    "fields": {
+      "name": "เจล 500g",
+      "barcode": "G-500",
+      "sku": "MMGN50000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 20,
+    "fields": {
+      "name": "เจลใส 100",
+      "barcode": "GZ-100",
+      "sku": "MMGZ10000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 21,
+    "fields": {
+      "name": "เจลใส 200",
+      "barcode": "GZ-200",
+      "sku": "MMGZ20000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 22,
+    "fields": {
+      "name": "เจลใส 400",
+      "barcode": "GZ-400",
+      "sku": "MMGZ40000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 23,
+    "fields": {
+      "name": "เจลกล่องเล็ก",
+      "barcode": "GB-S",
+      "sku": "MMGBSS000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 24,
+    "fields": {
+      "name": "เจลกล่องกลาง",
+      "barcode": "GB-M",
+      "sku": "MMGBMM000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 25,
+    "fields": {
+      "name": "เจลกล่องใหญ่",
+      "barcode": "GB-L",
+      "sku": "MMGBLL000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 26,
+    "fields": {
+      "name": "เจลกล่องใหญ่1000",
+      "barcode": "GB-L1000",
+      "sku": "MMGBXL000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 27,
+    "fields": {
+      "name": "เจลขาว 100",
+      "barcode": "GW-100",
+      "sku": "MMGW10000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 28,
+    "fields": {
+      "name": "เจลขาว 200",
+      "barcode": "GW-200",
+      "sku": "MMGW20000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 29,
+    "fields": {
+      "name": "เจลขาว 400",
+      "barcode": "GW-400",
+      "sku": "MMGW40000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 30,
+    "fields": {
+      "name": "เจลขาว 600",
+      "barcode": "GW-600",
+      "sku": "MMGW60000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 31,
+    "fields": {
+      "name": "เจลขาว 800",
+      "barcode": "GW-800",
+      "sku": "MMGW80000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 32,
+    "fields": {
+      "name": "เจลขาว 1000",
+      "barcode": "GW-1000",
+      "sku": "MMGWX0000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 33,
+    "fields": {
+      "name": "เจล100แช่น้ำ",
+      "barcode": "GW-W100",
+      "sku": "MMGA10000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 34,
+    "fields": {
+      "name": "เจล200แช่น้ำ",
+      "barcode": "GW-W200",
+      "sku": "MMGA20000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 35,
+    "fields": {
+      "name": "เจล400แช่น้ำ",
+      "barcode": "GW-W400",
+      "sku": "MMGA40000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 36,
+    "fields": {
+      "name": "เจล7×7แช่น้ำ",
+      "barcode": "GW-W7070",
+      "sku": "MMGA70000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 2,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 37,
+    "fields": {
+      "name": "กล่องโฟม 1kg",
+      "barcode": "FM-01",
+      "sku": "MMFM10000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 38,
+    "fields": {
+      "name": "กล่องโฟม 2kg",
+      "barcode": "FM-02",
+      "sku": "MMFM20000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 39,
+    "fields": {
+      "name": "กล่องโฟม 3kg",
+      "barcode": "FM-03",
+      "sku": "MMFM30000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 40,
+    "fields": {
+      "name": "กล่องโฟม 5kg",
+      "barcode": "FM-05",
+      "sku": "MMFM50000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 41,
+    "fields": {
+      "name": "กล่องโฟม 10kg",
+      "barcode": "FM-10",
+      "sku": "MMFMX0000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 42,
+    "fields": {
+      "name": "กล่องโฟม 20kg",
+      "barcode": "FM-20",
+      "sku": "MMFMXX000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 43,
+    "fields": {
+      "name": "กล่องโฟม 25kg",
+      "barcode": "FM-25",
+      "sku": "MMFMXV000001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 3,
+      "category_id": 3,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 44,
+    "fields": {
+      "name": "ฟอย20×20",
+      "barcode": "FOIL-2020",
+      "sku": "MMFL20200001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 45,
+    "fields": {
+      "name": "ฟอย20×25",
+      "barcode": "FOIL-2025",
+      "sku": "MMFL20250001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 46,
+    "fields": {
+      "name": "ฟอย25×30",
+      "barcode": "FOIL-2530",
+      "sku": "MMFL25300001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 47,
+    "fields": {
+      "name": "ฟอย30×30",
+      "barcode": "FOIL-3030",
+      "sku": "MMFL30300001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 48,
+    "fields": {
+      "name": "ฟอย30×40",
+      "barcode": "FOIL-3040",
+      "sku": "MMFL30400001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 49,
+    "fields": {
+      "name": "ฟอย40×40",
+      "barcode": "FOIL-4040",
+      "sku": "MMFL40400001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 50,
+    "fields": {
+      "name": "ฟอย40×50",
+      "barcode": "FOIL-4050",
+      "sku": "MMFL40500001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 51,
+    "fields": {
+      "name": "ฟอย50×50",
+      "barcode": "FOIL-5050",
+      "sku": "MMFL50500001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 52,
+    "fields": {
+      "name": "ฟอย21×10×23",
+      "barcode": "FOILB-211023",
+      "sku": "MMFB21102301",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 53,
+    "fields": {
+      "name": "ฟอย24×24×28",
+      "barcode": "FOILB-242428",
+      "sku": "MMFB24242801",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 54,
+    "fields": {
+      "name": "ฟอย29×17×26",
+      "barcode": "FOILB-291726",
+      "sku": "MMFB29172601",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 55,
+    "fields": {
+      "name": "ฟอย34×14×30",
+      "barcode": "FOILB-341430",
+      "sku": "MMFB34143001",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  },
+  {
+    "model": "stock.Items",
+    "pk": 56,
+    "fields": {
+      "name": "ฟอย17×17×22",
+      "barcode": "FOILB-171722",
+      "sku": "MMFB17172201",
+      "amount": 0,
+      "price_per_unit": 0.0,
+      "unit_id": 2,
+      "category_id": 4,
+      "created_date": "2025-06-17T15:17:54.780137+00:00",
+      "deleted": null,
+      "deleted_by_cascade": false,
+      "created_by_id": 1,
+      "updated_by_id": 1
+    }
+  }
+]
