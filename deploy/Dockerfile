@@ -18,7 +18,7 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION
 WORKDIR /code
 
 # install deps system-wide so gunicorn ends up in $PATH
-COPY . .
+COPY pyproject.toml poetry.lock /code/
 RUN poetry config virtualenvs.create false \
  && poetry install --no-ansi --with deployment,main
 
@@ -34,8 +34,8 @@ ENV EXPOSE_PORT=$EXPOSE_PORT \
 
 EXPOSE $EXPOSE_PORT
 
+COPY . .
 RUN python manage.py collectstatic --noinput
-COPY ./staticfiles ../app/staticfiles
 
 CMD python manage.py migrate && gunicorn \
     --worker-class=gthread \

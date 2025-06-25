@@ -3,6 +3,7 @@ name = "stock-be"
 version = "0.1.0"
 description = ""
 authors = ["Surakiet Piyasakulkiet <90365388+SurakietArt@users.noreply.github.com>"]
+package-mode = false
 
 [tool.isort]
 skip = ["env", "stock_be/settings.py"]

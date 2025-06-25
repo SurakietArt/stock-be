@@ -36,9 +36,6 @@ services:
       dockerfile: deploy/Dockerfile
     env_file:
       - .env
-    volumes:
-      - .:/app:delegated
-      - static_volume:/app/staticfiles
     ports:
       - "8000:8080"
     depends_on:
