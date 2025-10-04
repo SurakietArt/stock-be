@@ -18,11 +18,11 @@ services:
   web:
     restart: on-failure # will restart until it's success
     build:
-      context: ../../..        # adjust depending on where your project root is
+      context: ../../
       dockerfile: deploy/Dockerfile
     env_file:
       - .env
-    command: gunicorn stock_project.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn stock_be.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
