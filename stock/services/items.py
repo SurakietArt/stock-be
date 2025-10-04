@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from django.db import DatabaseError
 from rest_framework import status
@@ -6,6 +6,8 @@ from rest_framework.response import Response
 
 from core.exception.exception import BadRequestException, InternalErrorException
 from core.models import Users
+from line.dataclass.line import LineMulticastRequest
+from line.services.line_services import LineService
 from stock.constant import TRANSACTION_TYPE_RECEIVE, TRANSACTION_TYPE_ISSUE, TRANSACTION_TYPE_UPDATE
 from stock.dataclass.barcode_dataclass import BarcodeParam, BarcodeResponse
 from stock.models.items_model import Items
@@ -66,11 +68,23 @@ class ItemsServices:
             transaction = cls.create_item_transaction(user, item, transaction_type, amount)
         try:
             item = cls.update_item(item, final_amount, alert_threshold)
+            cls.threshold_check([item])
         except DatabaseError as e:
             if transaction:
                 transaction.delete()
             raise InternalErrorException(e)
         return item
+
+    @classmethod
+    def threshold_check(cls, items: List[Items]):
+        alert_items = []
+        for item in items:
+            if item.amount < item.alert_threshold:
+                alert_items.append(item)
+
+        if len(alert_items) > 0:
+            message = LineMulticastRequest.build_alert_threshold_message(alert_items)
+            LineService.send_multicast_message_to_users(message)
 
     @classmethod
     def amount_checker(cls, item: Items, final_amount: int) -> None:

@@ -1,8 +1,11 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from typing import List
 
 from django.conf import settings
 from django_dataclass_autoserialize import AutoSerialize
+
+from stock.models.items_model import Items
 
 
 @dataclass
@@ -32,3 +35,29 @@ class LineAccess(AutoSerialize):
             client_id=settings.LINE_LOGIN_CLIENT_ID,
             client_secret=settings.LINE_LOGIN_CHANNEL_SECRET
         )
+
+
+@dataclass
+class LineMulticastRequest(AutoSerialize):
+    to: List[str]
+    messages: List[LineMessage]
+
+    @classmethod
+    def build_alert_threshold_message(cls, items: List[Items]) -> LineMulticastRequest:
+        line_message = LineMessage(
+            text=cls.build_message_from_items(items)
+        )
+        return LineMulticastRequest(to=settings.LINE_USER_GET_ALERT_THRESHOLD, messages=[line_message])
+
+    @classmethod
+    def build_message_from_items(cls, items: List[Items]) -> str:
+        ret = ["ของใก้ลหมด"]
+        for item in items:
+            ret.append(f"{item.name}: คงเหลือ {item.amount} \n(จำนวนที่แจ้งเตือน {item.alert_threshold})\n")
+        return "\n".join(ret)
+
+
+@dataclass
+class LineMessage(AutoSerialize):
+    text: str
+    type: str = "text"

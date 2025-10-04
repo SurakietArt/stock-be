@@ -1,18 +1,22 @@
 import uuid
-from urllib import request
 
 import requests
 from django.conf import settings
+from requests import Response
 from rest_framework import status
 from rest_framework.request import Request
 
 from core.exception.line_exception import LineServiceUnavailable
 from core.models import Users
 from core.util.password_generator import generate_password
-from line.dataclass.line import LineAccess
+from line.dataclass.line import LineAccess, LineMulticastRequest
 
 
 class LineService:
+    Header = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {settings.LINE_MESSAGE_ACCESS_TOKEN}",
+    }
 
     @classmethod
     def get_access_from_code(cls, code: str) -> str:
@@ -54,6 +58,15 @@ class LineService:
                 profile_img_url=profile_img_url
             )
         return user
+
+    @classmethod
+    def send_multicast_message_to_users(cls, message: LineMulticastRequest) -> Response:
+        response = requests.post(
+            settings.LINE_API_BASE_URL + settings.LINE_MULTICAST_URL,
+            headers=cls.Header,
+            json=message.to_data(),
+        )
+        return response
 
     @classmethod
     def create_login_url(cls, request: Request) -> str:

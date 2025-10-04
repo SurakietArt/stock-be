@@ -6,7 +6,6 @@ networks:
 
 volumes:
   db_data:
-  static_volume:
 
 services:
   db:

@@ -56,6 +56,10 @@ class LineViewSet(GenericViewSet):
 
         return response
 
+    @action(detail=False, methods=["post"], url_path="webhook", url_name="webhook")
+    def line_webhook(self, request: Request) -> Response:
+        return Response(status=status.HTTP_200_OK)
+
 
 @renderer_classes([TemplateHTMLRenderer])
 class LineTemplateViewSet(viewsets.GenericViewSet):
