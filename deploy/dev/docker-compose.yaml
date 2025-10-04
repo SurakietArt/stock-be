@@ -17,7 +17,9 @@ services:
       - db_data:/var/lib/postgresql/data
   web:
     restart: on-failure # will restart until it's success
-    build: .
+    build:
+      context: ../..        # adjust depending on where your project root is
+      dockerfile: deploy/Dockerfile
     env_file:
       - .env
     command: gunicorn stock_project.wsgi:application --bind 0.0.0.0:8000
