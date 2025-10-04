@@ -18,7 +18,7 @@ services:
   web:
     restart: on-failure # will restart until it's success
     build:
-      context: ../..        # adjust depending on where your project root is
+      context: ../../..        # adjust depending on where your project root is
       dockerfile: deploy/Dockerfile
     env_file:
       - .env
