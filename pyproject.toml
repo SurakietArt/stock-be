@@ -43,6 +43,7 @@ python-barcode = "^0.15.1"
 djangorestframework-simplejwt = "^5.5.0"
 whitenoise = "^6.9.0"
 requests = "^2.32.5"
+django-crontab = "^0.7.1"
 
 [tool.poetry.group.deployment.dependencies]
 gunicorn = { extras = ["gthread"], version = "^22.0.0" }

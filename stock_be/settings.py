@@ -59,11 +59,13 @@ INSTALLED_APPS = [
     "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "corsheaders",
+    "django_crontab",
     # in-app
     "core",
     "stock",
     "customer",
-    "line"
+    "line",
+    "cron"
 ]
 
 MIDDLEWARE = [
@@ -186,3 +188,8 @@ LINE_USER_GET_ALERT_THRESHOLD = ENV("LINE_USER_GET_ALERT_THRESHOLD").split(",")
 
 STATIC_URL = os.path.join(BASE_DIR, "staticfiles/")
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+
+CRONJOBS = [
+    ('*/5 * * * *', 'cron.services.cron.items_alert_threshold'),
+    ('0 8 * * *', 'cron.services.cron.items_alert_threshold'),
+]

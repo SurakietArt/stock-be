@@ -1,11 +1,19 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from datetime import time
 from typing import List
 
 from django.conf import settings
+from django.utils import timezone
 from django_dataclass_autoserialize import AutoSerialize
 
 from stock.models.items_model import Items
+
+THAI_MONTHS = [
+    "",  # padding for 1-indexed months
+    "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+    "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",
+]
 
 
 @dataclass
@@ -43,18 +51,28 @@ class LineMulticastRequest(AutoSerialize):
     messages: List[LineMessage]
 
     @classmethod
-    def build_alert_threshold_message(cls, items: List[Items]) -> LineMulticastRequest:
+    def build_alert_threshold_message(cls, items: List[Items], include_date: bool = False) -> LineMulticastRequest:
         line_message = LineMessage(
-            text=cls.build_message_from_items(items)
+            text=cls.build_message_from_items(items, include_date),
         )
         return LineMulticastRequest(to=settings.LINE_USER_GET_ALERT_THRESHOLD, messages=[line_message])
 
     @classmethod
-    def build_message_from_items(cls, items: List[Items]) -> str:
-        ret = ["ของใก้ลหมด"]
+    def build_message_from_items(cls, items: List["Items"], include_date: bool = False) -> str:
+        header = "ของใก้ลหมด"
+
+        if include_date:
+            now = timezone.now()
+            thai_date_str = f"{now.day:02d} {THAI_MONTHS[now.month]} {now.year}"
+            header = f"สรุปของใก้ลหมด ประจำวันที่ {thai_date_str}"
+
+        lines = [header]
         for item in items:
-            ret.append(f"{item.name}: คงเหลือ {item.amount} \n(จำนวนที่แจ้งเตือน {item.alert_threshold})\n")
-        return "\n".join(ret)
+            lines.append(
+                f"{item.name}: คงเหลือ {item.amount} \n(จำนวนที่แจ้งเตือน {item.alert_threshold})\n"
+            )
+
+        return "\n".join(lines)
 
 
 @dataclass

@@ -191,6 +191,20 @@ asgiref = ">=3.6"
 django = ">=3.2"
 
 [[package]]
+name = "django-crontab"
+version = "0.7.1"
+description = "dead simple crontab powered job scheduling for django"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "django-crontab-0.7.1.tar.gz", hash = "sha256:1201810a212460aaaa48eb6a766738740daf42c1a4f6aafecfb1525036929236"},
+]
+
+[package.dependencies]
+Django = ">=1.8"
+
+[[package]]
 name = "django-dataclass-autoserialize"
 version = "1.0.1"
 description = ""
@@ -801,4 +815,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "ce5a1793092459891a5d00cb52ebfba1c1b9ebb5438292d30f87b38f0588525d"
+content-hash = "a4ed826b3564803cee150d25bc17ac9c64500c88ef50f61e6ec242100a2062d2"
