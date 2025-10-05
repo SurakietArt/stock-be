@@ -8,10 +8,8 @@ ENV POETRY_VERSION="2.1.3" \
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-      curl build-essential libpq-dev \
+      curl build-essential libpq-dev cron tzdata \
  && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get install -y cron
 
 # install Poetry
 RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 \
@@ -19,7 +17,6 @@ RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION
 
 WORKDIR /code
 
-# install deps system-wide so gunicorn ends up in $PATH
 COPY pyproject.toml poetry.lock /code/
 RUN poetry config virtualenvs.create false \
  && poetry install --no-ansi --with deployment,main
