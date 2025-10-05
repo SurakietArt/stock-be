@@ -11,6 +11,8 @@ RUN apt-get update \
       curl build-essential libpq-dev \
  && rm -rf /var/lib/apt/lists/*
 
+RUN sudo apt-get install -y cron
+
 # install Poetry
 RUN curl -sSL https://install.python-poetry.org | POETRY_VERSION=$POETRY_VERSION python3 \
  && ln -s /root/.local/bin/poetry /usr/local/bin/poetry
