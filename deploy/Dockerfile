@@ -9,6 +9,9 @@ ENV POETRY_VERSION="2.1.3" \
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       curl build-essential libpq-dev cron tzdata \
+ && ln -snf /usr/share/zoneinfo/Asia/Bangkok /etc/localtime \
+ && echo "Asia/Bangkok" > /etc/timezone \
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
 # install Poetry
