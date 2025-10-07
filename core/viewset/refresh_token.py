@@ -1,3 +1,5 @@
+import jwt
+from django.conf import settings
 from rest_framework.decorators import action
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -5,6 +7,8 @@ from rest_framework import status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
+from core.models import Users
+from core.util.token_generator import generate_app_token
 from line.services.line_services import LineService
 
 
@@ -23,11 +27,21 @@ class RefreshTokenViewSet(GenericViewSet):
             }, status=status.HTTP_401_UNAUTHORIZED)
 
         try:
-            refresh = RefreshToken(refresh_token)
-            access_token = str(refresh.access_token)
+            payload = jwt.decode(refresh_token, settings.SECRET_KEY, algorithms=["HS256"])
+        except jwt.ExpiredSignatureError:
+            return Response({"detail": "refresh_expired"}, status=status.HTTP_401_UNAUTHORIZED)
+        except jwt.InvalidTokenError:
+            return Response({"detail": "refresh_invalid"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user_id = payload.get("sub") or payload.get("user_id")
+        try:
+            user = Users.objects.get(id=user_id)
+            token = generate_app_token(user)
             return Response({
-                "access": access_token
+                "access": token
             }, status=status.HTTP_200_OK)
+        except Users.DoesNotExist:
+            return Response({"detail": "user_not_found"}, status=status.HTTP_401_UNAUTHORIZED)
         except TokenError:
             return Response({
                 "detail": "Refresh token expire",
