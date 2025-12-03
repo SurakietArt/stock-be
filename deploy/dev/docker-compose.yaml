@@ -16,7 +16,7 @@ services:
         timeout: 5s
         retries: 5
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - stock_db:/var/lib/postgresql/data
   web:
     restart: on-failure # will restart until it's success
     build:
@@ -32,4 +32,4 @@ services:
     depends_on:
       - db
 volumes:
-  db_data:
+  stock_db:
